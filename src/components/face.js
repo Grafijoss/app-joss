@@ -13,7 +13,7 @@ class Face extends Component {
 		Stage: new PIXI.Container(),
 		Stage1: new PIXI.Container(),
 		Stage2: new PIXI.Container(),
-    Renderer: PIXI.autoDetectRenderer(600, 600)
+    Renderer: PIXI.autoDetectRenderer(600, 600, { transparent: true })
   }
   /* estado */
   /* methods */
