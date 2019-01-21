@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import './App.scss';
-import Header from './components/header'
+import Face from './components/face'
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Header
+        {/* <Header
           title='esto es una prueba'
-        />
+        /> */}
+        <Face />
       </div>
     );
   }
