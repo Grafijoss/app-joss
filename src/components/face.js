@@ -10,7 +10,9 @@ class Face extends Component {
     pixi_cnt: null,
     container: PIXI.Container,
     TextureCache: PIXI.TextureCache,
-    Stage: new PIXI.Container(),
+		Stage: new PIXI.Container(),
+		Stage1: new PIXI.Container(),
+		Stage2: new PIXI.Container(),
     Renderer: PIXI.autoDetectRenderer(600, 600)
   }
   /* estado */
@@ -39,13 +41,25 @@ class Face extends Component {
     console.log((this.state.Renderer.width / 2) - (faceB.width / 2))
     faceB.position.x = (this.state.Renderer.width / 2) - (faceB.width / 2)
     faceB.position.y = (this.state.Renderer.height / 2) - (faceB.height / 2)
-    this.state.Stage.addChild(faceB)
+    this.state.Stage1.addChild(faceB)
 
     // hair
     let hair = new PIXI.Sprite(this.frame(sequence, 408, 0, 408, 408))
     hair.position.x = (this.state.Renderer.width / 2) - (hair.width / 2)
-    hair.position.y = (this.state.Renderer.height / 2) - (hair.height / 2)
-    this.state.Stage.addChild(hair)
+    hair.position.y = ((this.state.Renderer.height / 2) - (hair.height / 2)) - 40
+		this.state.Stage1.addChild(hair)
+
+		// eyes
+    let eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
+    eyes.position.x = (this.state.Renderer.width / 2) - (eyes.width / 2)
+    eyes.position.y = ((this.state.Renderer.height / 2) - (eyes.height / 2)) + 40
+		this.state.Stage1.addChild(eyes)
+		
+		// shadow
+    let shadow = new PIXI.Sprite(this.frame(sequence, 816, 0, 408, 408))
+    shadow.position.x = (this.state.Renderer.width / 2) - (shadow.width / 2)
+    shadow.position.y = (this.state.Renderer.height / 2) - (shadow.height / 2)
+    this.state.Stage1.addChild(shadow)
 
     //Circle
     let circle = new PIXI.Graphics()
@@ -55,12 +69,23 @@ class Face extends Component {
     console.log((this.state.Renderer.width / 2) - (circle.width))
     circle.position.x = (this.state.Renderer.width / 2)
     circle.position.y = (this.state.Renderer.height / 2)
-    this.state.Stage.addChild(circle)
+    this.state.Stage1.addChild(circle)
 
-    this.state.Stage.mask = circle
+		this.state.Stage1.mask = circle
+		// this.state.Renderer.render(this.state.Stage)
 
+		// glasses
+    let glasses = new PIXI.Sprite(this.frame(sequence, 1632, 0, 408, 408))
+    glasses.position.x = (this.state.Renderer.width / 2) - (glasses.width / 2)
+    glasses.position.y = (this.state.Renderer.height / 2) - (glasses.height / 2)
+    this.state.Stage2.addChild(glasses)
 
-    this.state.Renderer.render(this.state.Stage)
+		this.state.Stage.addChild(this.state.Stage1)
+		this.state.Stage.addChild(this.state.Stage2)
+
+		this.state.Renderer.render(this.state.Stage)
+		
+
   }
   frame = (origin,x,y,w,h) => {
     let texture = null
