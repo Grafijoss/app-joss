@@ -134,39 +134,6 @@ class Face extends Component {
     }
   }
 
-  teclado = (keyCode) => {
-    var key = {}
-    key.code = keyCode
-    key.isDown = false
-    key.isUp = true
-    key.press = undefined
-    key.release = undefined
-        
-    //Funcion que responde al evento keydown
-    key.downHandler = event => {
-      if (event.keyCode === key.code) {
-        if (key.isUp && key.press) key.press()
-        key.isDown = true
-        key.isUp = false
-      }
-      event.preventDefault()
-    }
-
-    //Funcion que responde al evento keyup
-    key.upHandler = event => {
-      if (event.keyCode === key.code) {
-        if (key.isDown && key.release) key.release()
-        key.isDown = false
-        key.isUp = true
-      }
-      event.preventDefault()
-    }
-    window.addEventListener("keydown", key.downHandler.bind(key), false)
-    window.addEventListener("keyup", key.upHandler.bind(key), false)
-    //Return the `key` object
-    return key
-  } 
-
   /* loop */
   // loop = () => {
   //   requestAnimationFrame(this.loop)
