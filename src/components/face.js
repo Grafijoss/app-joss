@@ -13,10 +13,14 @@ class Face extends Component {
 		Stage: new PIXI.Container(),
 		Stage1: new PIXI.Container(),
 		Stage2: new PIXI.Container(),
-    Renderer: PIXI.autoDetectRenderer(410, 410, { transparent: true }),
+    Renderer: PIXI.autoDetectRenderer(450, 450, { transparent: true }),
     Mouse: {
       x: undefined,
-      y: undefined
+			y: undefined,
+			xeye: undefined,
+			yeye: undefined,
+			xhair: undefined,
+      yhair: undefined
     },
     Sprites: {
       faceB: null,
@@ -26,20 +30,32 @@ class Face extends Component {
       glasses: null
     }
   }
-  /* estado */
+	/* estado */
+	/* created */
   componentDidMount (prev_props, prev_state) {
-    console.log('si funciona')
-    const _this = this
-    window.onmousemove = function () {
-      _this.setState({ 
-        Mouse: {
-          x: window.event.clientX,
-          y: window.event.clientY
-        }
-      })
-    }
-  }
-  /* methods */
+		document.captureEvents(Event.MOUSEMOVE)
+		document.onmousemove = this.getMouseXY
+	}
+	/* created */
+	/* methods */
+	getMouseXY = (e) => {
+		let _this = this
+		let tempX = e.pageX
+		let tempY = e.pageY  
+		if (tempX < 0) {tempX = 0}
+		if (tempY < 0) {tempY = 0} 
+		_this.setState({
+			Mouse: {
+				x: 10 + tempX / document.body.scrollWidth * 30,
+				y: tempY / document.body.scrollHeight * 100,
+				xeye: tempX / document.body.scrollWidth * 60,
+				yeye: tempY / document.body.scrollHeight * 120,
+				xhair: tempX / document.body.scrollWidth * 20,
+				yhair: tempY / document.body.scrollHeight * 50
+			}
+		})
+		return true
+	}
   updatePixiCnt = (element) => {
     // the element is the DOM object that we will use as container to add pixi stage(canvas)
     this.pixi_cnt = element
@@ -67,22 +83,26 @@ class Face extends Component {
     this.state.Stage1.addChild(faceB)
 
     // hair
-    let hair = new PIXI.Sprite(this.frame(sequence, 408, 0, 408, 408))
-    hair.position.x = (this.state.Renderer.width / 2) - (hair.width / 2)
-    hair.position.y = ((this.state.Renderer.height / 2) - (hair.height / 2)) - 40
-		this.state.Stage1.addChild(hair)
+    this.state.Sprites.hair = new PIXI.Sprite(this.frame(sequence, 408, 0, 408, 408))
+    this.state.Sprites.hair.position.x = (this.state.Renderer.width / 2) - (this.state.Sprites.hair.width / 2)
+		this.state.Sprites.hair.position.y = ((this.state.Renderer.height / 2) - (this.state.Sprites.hair.height / 2)) - 40
+		this.state.Sprites.hair.vx = 0
+    this.state.Sprites.hair.vy = 0
+		this.state.Stage1.addChild(this.state.Sprites.hair)
 
 		// eyes
-    let eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
-    eyes.position.x = (this.state.Renderer.width / 2) - (eyes.width / 2)
-    eyes.position.y = ((this.state.Renderer.height / 2) - (eyes.height / 2)) + 40
-		this.state.Stage1.addChild(eyes)
+    this.state.Sprites.eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
+    this.state.Sprites.eyes.position.x = (this.state.Renderer.width / 2) - (this.state.Sprites.eyes.width / 2)
+    this.state.Sprites.eyes.position.y = ((this.state.Renderer.height / 2) - (this.state.Sprites.eyes.height / 2)) + 40
+		this.state.Sprites.eyes.vx = 0
+    this.state.Sprites.eyes.vy = 0
+		this.state.Stage1.addChild(this.state.Sprites.eyes)
 		
 		// shadow
     let shadow = new PIXI.Sprite(this.frame(sequence, 816, 0, 408, 408))
     shadow.position.x = (this.state.Renderer.width / 2) - (shadow.width / 2)
     shadow.position.y = (this.state.Renderer.height / 2) - (shadow.height / 2)
-    this.state.Stage1.addChild(shadow)
+    // this.state.Stage1.addChild(shadow)
 
     //Circle
     let circle = new PIXI.Graphics()
@@ -110,7 +130,7 @@ class Face extends Component {
 
     this.state.Renderer.render(this.state.Stage)
     
-    // this.loop()
+    this.loop()
 		
 
   }
@@ -135,13 +155,22 @@ class Face extends Component {
   }
 
   /* loop */
-  // loop = () => {
-  //   requestAnimationFrame(this.loop)
-  //   this.state.Sprites.glasses.vx = 1
-  //   this.state.Sprites.glasses.vy = 1
-  //   this.state.Sprites.glasses.x += this.state.Sprites.glasses.vx
-  //   this.state.Renderer.render(this.state.Stage)
-  // }
+  loop = () => {
+    requestAnimationFrame(this.loop)
+    this.state.Sprites.glasses.vx = 2
+    this.state.Sprites.glasses.vy = 2
+		this.state.Sprites.glasses.x = this.state.Mouse.x
+		this.state.Sprites.glasses.y = this.state.Mouse.y
+		this.state.Sprites.eyes.vx = 3
+    this.state.Sprites.eyes.vy = 3
+		this.state.Sprites.eyes.x = this.state.Mouse.xeye
+		this.state.Sprites.eyes.y = this.state.Mouse.yeye - 20
+		this.state.Sprites.hair.vx = 1
+    this.state.Sprites.hair.vy = 1
+		this.state.Sprites.hair.x = this.state.Mouse.xhair
+		this.state.Sprites.hair.y = this.state.Mouse.yhair - 50
+    this.state.Renderer.render(this.state.Stage)
+  }
   /* loop */
   /* methods */
   render() {
