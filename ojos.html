@@ -86,7 +86,7 @@
 						do {
 							elX += obj.offsetLeft;
 							elY += obj.offsetTop;
-						} while (obj = obj.offsetParent);
+						} while (obj = obj.offsetParent); // mientras exista el padre
 					}
 					el[0].centreX = elX + Math.round (el[0].offsetWidth / 2);
 					el[0].centreY = elY + Math.round (el[0].offsetHeight / 2);
