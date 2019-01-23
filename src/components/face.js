@@ -159,20 +159,8 @@ class Face extends Component {
   /* loop */
   fnLoop = () => {
     requestAnimationFrame(this.fnLoop)
-    // Sprites.glasses.vx = 2
-    // Sprites.glasses.vy = 2
-		// if (this.state.Mouse.x) Sprites.glasses.x = this.state.Mouse.x
-		// if (this.state.Mouse.y) Sprites.glasses.y = this.state.Mouse.y
 		if (this.state.Mouse.x) TweenMax.to(Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
-		// Sprites.eyes.vx = 5
-    // Sprites.eyes.vy = 5
-		// if (this.state.Mouse.xeye) Sprites.eyes.x = this.state.Mouse.xeye
-		// if (this.state.Mouse.yeye) Sprites.eyes.y = this.state.Mouse.yeye - 20
 		if (this.state.Mouse.xeye) TweenMax.to(Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
-		// Sprites.hair.vx = 1
-    // Sprites.hair.vy = 1
-		// if (this.state.Mouse.xhair) Sprites.hair.x = this.state.Mouse.xhair
-		// if (this.state.Mouse.yhair) Sprites.hair.y = this.state.Mouse.yhair - 50
 		if (this.state.Mouse.xhair) TweenMax.to(Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
 
     this.state.Renderer.render(Stage)
