@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import * as PIXI from 'pixi.js'
 import { TweenMax } from 'gsap'
-import PixiPlugin from 'gsap/PixiPlugin'
+// import PixiPlugin from 'gsap/PixiPlugin'
 // import PropTypes from 'prop-types'
+// https://github.com/inlet/react-pixi
 import sequence  from '../assets/images/sprite.png'
 
 let Sprites = {
@@ -11,7 +12,7 @@ let Sprites = {
 	eyes: null,
 	shadow: null,
 	glasses: null,
-	circle: null
+  circle: null
 }
 
 let Stage = new PIXI.Container()
@@ -32,13 +33,18 @@ class Face extends Component {
 			yeye: undefined,
 			xhair: undefined,
       yhair: undefined
-    }
+    },
+    flicker1: undefined,
+    flicker2: undefined,
+    flicker: 0,
+    moveMouse: false,
+    estado: undefined
   }
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
 		document.captureEvents(Event.MOUSEMOVE)
-		document.onmousemove = this.getMouseXY
+    document.onmousemove = this.getMouseXY
 	}
 	/* created */
 	/* methods */
@@ -57,7 +63,7 @@ class Face extends Component {
 				xhair: tempX / document.body.scrollWidth * 20,
 				yhair: tempY / document.body.scrollHeight * 50
 			}
-		})
+    })
 		return true
 	}
   updatePixiCnt = (element) => {
@@ -91,7 +97,11 @@ class Face extends Component {
     Sprites.hair.vy = 0
 		Stage1.addChild(Sprites.hair)
 
-		// eyes
+    // eyes
+    this.setState({
+      flicker1: this.frame(sequence, 816, 0, 408, 408),
+      flicker2: this.frame(sequence, 1224, 0, 408, 408),
+    })
     Sprites.eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
     Sprites.eyes.position.x = (this.state.Renderer.width / 2) - (Sprites.eyes.width / 2)
     Sprites.eyes.position.y = ((this.state.Renderer.height / 2) - (Sprites.eyes.height / 2))
@@ -131,9 +141,8 @@ class Face extends Component {
 
 		this.state.Renderer.render(Stage)
 		
-		let loop = this.fnLoop 
-    
-    loop()
+		this.setState({ estado: this.fnIni1 })
+    this.fnLoop()
 		
   }
   frame = (origin,x,y,w,h) => {
@@ -159,13 +168,62 @@ class Face extends Component {
   /* loop */
   fnLoop = () => {
     requestAnimationFrame(this.fnLoop)
-		if (this.state.Mouse.x) TweenMax.to(Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
-		if (this.state.Mouse.xeye) TweenMax.to(Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
-		if (this.state.Mouse.xhair) TweenMax.to(Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
-
+    this.state.estado()
     this.state.Renderer.render(Stage)
   }
   /* loop */
+  /* loop1 */
+  nextState = (current) => {
+    switch (current) {
+      case 1:
+        this.setState({ estado: this.fnIni2 })
+        break
+      case 2:
+        this.setState({ estado: this.fnIni3 })
+        break
+      default:
+        this.setState({ estado: this.fnLoopMouse })
+        break
+    }
+  }
+  fnIni1 = () => {
+    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
+    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX - 20, y:centerY - 20})
+    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX - 30, y:centerY - 40})
+    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
+    if ( Math.round(Sprites.eyes.position.y) === (centerY - 40)) this.nextState(1)
+  }
+  fnIni2 = () => {
+    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
+    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX + 20, y:centerY - 20})
+    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX + 30, y:centerY - 40})
+    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX + 30, y:centerY - 70})
+    if ( Math.round(Sprites.eyes.position.x) === (centerX + 30)) this.nextState(2)
+  }
+  fnIni3 = () => {
+    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
+    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX, y:centerY + 50})
+    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
+    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
+    if ( Math.round(Sprites.eyes.position.y) === (centerY + 60)) this.nextState()
+  }
+  fnLoopMouse = () => {
+    this.setState({ flicker: this.state.flicker + 1 })
+    if (this.state.flicker === 150) {
+      Sprites.eyes.texture = this.state.flicker1
+    }
+    if (this.state.flicker === 155) {
+      this.setState({ flicker: 0 })
+      Sprites.eyes.texture = this.state.flicker2
+    }
+    if (this.state.Mouse.x) TweenMax.to(Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
+    if (this.state.Mouse.xeye) TweenMax.to(Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
+    if (this.state.Mouse.xhair) TweenMax.to(Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
+  }
+  /* loop1 */
   /* methods */
   render() {
     return (
