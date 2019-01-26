@@ -5,6 +5,7 @@ import { TweenMax } from 'gsap'
 // import PropTypes from 'prop-types'
 // https://github.com/inlet/react-pixi
 import sequence  from '../assets/images/sprite.png'
+import { connect } from 'react-redux';
 
 let Sprites = {
 	faceB: null,
@@ -43,6 +44,7 @@ class Face extends Component {
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
+		console.log(this.props)
 		document.captureEvents(Event.MOUSEMOVE)
     document.onmousemove = this.getMouseXY
 	}
@@ -234,5 +236,11 @@ class Face extends Component {
   }
 }
 
+function mapStateToProps(state, props) {
+  return {
+		prueba: state.data.prueba,
+		prueba2: state.data.prueba2
+  }
+}
 
-export default Face
+export default connect(mapStateToProps)(Face)
