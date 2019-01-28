@@ -1,24 +1,25 @@
 import React, { Component } from 'react';
 import './App.scss';
 import Face from './components/face'
+import Menuicons from './components/menuicons'
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
+import reducer from './reducers/data'
+
 const initialState = {
   data: {
-		prueba: 'kjasghdjaghd hgj',
-		prueba2: 'kjasghdjaghd hgj'
-  }
+		// ...data,
+  },
+	aniStep: 0
 }
 
 const store = createStore(
-  (state) => state,
+  reducer,
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
-
-console.log(store.getState())
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
       <div className="App">
 				<Provider store={store}>
         	<Face />
+					<Menuicons />
 				</Provider>
       </div>
     );

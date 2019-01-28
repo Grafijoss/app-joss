@@ -143,7 +143,7 @@ class Face extends Component {
 
 		this.state.Renderer.render(Stage)
 		
-		this.setState({ estado: this.fnIni1 })
+		// this.setState({ estado: this.fnIni1 })
     this.fnLoop()
 		
   }
@@ -169,7 +169,8 @@ class Face extends Component {
 
   /* loop */
   fnLoop = () => {
-    requestAnimationFrame(this.fnLoop)
+		requestAnimationFrame(this.fnLoop)
+		this.nextState(this.props.aniStep)
     this.state.estado()
     this.state.Renderer.render(Stage)
   }
@@ -177,12 +178,15 @@ class Face extends Component {
   /* loop1 */
   nextState = (current) => {
     switch (current) {
+			case 0:
+        this.setState({ estado: this.fnIni1 })
+        break
       case 1:
         this.setState({ estado: this.fnIni2 })
         break
       case 2:
         this.setState({ estado: this.fnIni3 })
-        break
+				break
       default:
         this.setState({ estado: this.fnLoopMouse })
         break
@@ -194,7 +198,9 @@ class Face extends Component {
     TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX - 20, y:centerY - 20})
     TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX - 30, y:centerY - 40})
     TweenMax.to(Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
-    if ( Math.round(Sprites.eyes.position.y) === (centerY - 40)) this.nextState(1)
+    if ( Math.round(Sprites.eyes.position.y) === (centerY - 40)) {
+			// this.nextState(1)
+		}
   }
   fnIni2 = () => {
     let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
@@ -202,7 +208,9 @@ class Face extends Component {
     TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX + 20, y:centerY - 20})
     TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX + 30, y:centerY - 40})
     TweenMax.to(Sprites.hair.position, 0.6, {x:centerX + 30, y:centerY - 70})
-    if ( Math.round(Sprites.eyes.position.x) === (centerX + 30)) this.nextState(2)
+    if ( Math.round(Sprites.eyes.position.x) === (centerX + 30)) {
+			// this.nextState(2)
+		}
   }
   fnIni3 = () => {
     let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
@@ -210,7 +218,9 @@ class Face extends Component {
     TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX, y:centerY + 50})
     TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
     TweenMax.to(Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
-    if ( Math.round(Sprites.eyes.position.y) === (centerY + 60)) this.nextState()
+    if ( Math.round(Sprites.eyes.position.y) === (centerY + 60)) {
+			// this.nextState()
+		}
   }
   fnLoopMouse = () => {
     this.setState({ flicker: this.state.flicker + 1 })
@@ -237,9 +247,10 @@ class Face extends Component {
 }
 
 function mapStateToProps(state, props) {
+	console.log('esto es una prueba')
+	console.log(state)
   return {
-		prueba: state.data.prueba,
-		prueba2: state.data.prueba2
+		aniStep: state.aniStep
   }
 }
 
