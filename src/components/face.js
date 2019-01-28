@@ -7,19 +7,6 @@ import { TweenMax } from 'gsap'
 import sequence  from '../assets/images/sprite.png'
 import { connect } from 'react-redux';
 
-let Sprites = {
-	faceB: null,
-	hair: null,
-	eyes: null,
-	shadow: null,
-	glasses: null,
-  circle: null
-}
-
-let Stage = new PIXI.Container()
-let Stage1 = new PIXI.Container()
-let Stage2 = new PIXI.Container()
-
 class Face extends Component {
   /* estado */
   state = {
@@ -39,12 +26,22 @@ class Face extends Component {
     flicker2: undefined,
     flicker: 0,
     moveMouse: false,
-    estado: undefined
+		estado: undefined,
+		Sprites: {
+			faceB: null,
+			hair: null,
+			eyes: null,
+			shadow: null,
+			glasses: null
+		},
+		StageFace: new PIXI.Container(),
+		StageFace1: new PIXI.Container(),
+		StageFace2: new PIXI.Container()
   }
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
-		console.log(this.props)
+		// console.log(this.props)
 		document.captureEvents(Event.MOUSEMOVE)
     document.onmousemove = this.getMouseXY
 	}
@@ -84,64 +81,44 @@ class Face extends Component {
       .load(this.initialize)
   }
   initialize = () => {
-    // faceBackground
-    let faceB = new PIXI.Sprite(this.frame(sequence, 0, 0, 408, 408))
-    // console.log((this.state.Renderer.width / 2) - (faceB.width / 2))
-    faceB.position.x = (this.state.Renderer.width / 2) - (faceB.width / 2)
-    faceB.position.y = (this.state.Renderer.height / 2) - (faceB.height / 2)
-    Stage1.addChild(faceB)
-
-		// hair
-    Sprites.hair = new PIXI.Sprite(this.frame(sequence, 408, 0, 408, 408))
-    Sprites.hair.position.x = (this.state.Renderer.width / 2) - (Sprites.hair.width / 2)
-		Sprites.hair.position.y = ((this.state.Renderer.height / 2) - (Sprites.hair.height / 2)) - 40
-		Sprites.hair.vx = 0
-    Sprites.hair.vy = 0
-		Stage1.addChild(Sprites.hair)
 
     // eyes
     this.setState({
       flicker1: this.frame(sequence, 816, 0, 408, 408),
       flicker2: this.frame(sequence, 1224, 0, 408, 408),
     })
-    Sprites.eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
-    Sprites.eyes.position.x = (this.state.Renderer.width / 2) - (Sprites.eyes.width / 2)
-    Sprites.eyes.position.y = ((this.state.Renderer.height / 2) - (Sprites.eyes.height / 2))
-		Sprites.eyes.vx = 0
-    Sprites.eyes.vy = 0
-		Stage1.addChild(Sprites.eyes)
 		
-		// shadow
-    Sprites.shadow = new PIXI.Sprite(this.frame(sequence, 816, 0, 408, 408))
-    Sprites.shadow.position.x = (this.state.Renderer.width / 2) - (Sprites.shadow.width / 2)
-    Sprites.shadow.position.y = (this.state.Renderer.height / 2) - (Sprites.shadow.height / 2)
-    // Stage1.addChild(shadow)
-
     //Circle
-    Sprites.circle = new PIXI.Graphics()
-    Sprites.circle.beginFill(0x9966FF)
-    Sprites.circle.drawCircle(0, 0, 175)
-    Sprites.circle.endFill()
-    // console.log((this.state.Renderer.width / 2) - (circle.width))
-    Sprites.circle.position.x = (this.state.Renderer.width / 2)
-    Sprites.circle.position.y = (this.state.Renderer.height / 2)
-    Stage1.addChild(Sprites.circle)
+    let circleMask = new PIXI.Graphics()
+    circleMask.beginFill(0x9966FF)
+    circleMask.drawCircle(0, 0, 175)
+    circleMask.endFill()
+    circleMask.position.x = (this.state.Renderer.width / 2)
+    circleMask.position.y = (this.state.Renderer.height / 2)
 
-		Stage1.mask = Sprites.circle
-		// this.state.Renderer.render(Stage)
 
-		// glasses
-    Sprites.glasses = new PIXI.Sprite(this.frame(sequence, 1632, 0, 408, 408))
-    Sprites.glasses.position.x = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
-    Sprites.glasses.position.y = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
-    Sprites.glasses.vx = 0
-    Sprites.glasses.vy = 0
-    Stage2.addChild(Sprites.glasses)
+		this.setState({
+			Sprites: {
+				faceB: new PIXI.Sprite(this.frame(sequence, 0, 0, 408, 408)),
+				hair: new PIXI.Sprite(this.frame(sequence, 408, 0, 408, 408)),
+				eyes: new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408)),
+				glasses: new PIXI.Sprite(this.frame(sequence, 1632, 0, 408, 408))
+			}
+		})
+		// this.state.Sprites.eyes = new PIXI.Sprite(this.frame(sequence, 1224, 0, 408, 408))
+		// this.state.StageFace1.addChild(this.state.Sprites.eyes)
 
-		Stage.addChild(Stage1)
-		Stage.addChild(Stage2)
+		this.state.StageFace1.addChild(this.state.Sprites.faceB)
+		this.state.StageFace1.addChild(this.state.Sprites.hair)
+		this.state.StageFace1.addChild(this.state.Sprites.eyes)
+		this.state.StageFace1.addChild(circleMask)
+		this.state.StageFace1.mask = circleMask
+		this.state.StageFace2.addChild(this.state.Sprites.glasses)
 
-		this.state.Renderer.render(Stage)
+		this.state.StageFace.addChild(this.state.StageFace1)
+		this.state.StageFace.addChild(this.state.StageFace2)
+
+		this.state.Renderer.render(this.state.StageFace)
 		
 		// this.setState({ estado: this.fnIni1 })
     this.fnLoop()
@@ -170,9 +147,10 @@ class Face extends Component {
   /* loop */
   fnLoop = () => {
 		requestAnimationFrame(this.fnLoop)
+		TweenMax.to(this.state.Sprites.faceB.position, 0.6, {x: (this.state.Renderer.width / 2) - (this.state.Sprites.faceB.width / 2), y: (this.state.Renderer.height / 2) - (this.state.Sprites.faceB.height / 2)})
 		this.nextState(this.props.aniStep)
     this.state.estado()
-    this.state.Renderer.render(Stage)
+    this.state.Renderer.render(this.state.StageFace)
   }
   /* loop */
   /* loop1 */
@@ -193,47 +171,47 @@ class Face extends Component {
     }
   }
   fnIni1 = () => {
-    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
-    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
-    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX - 20, y:centerY - 20})
-    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX - 30, y:centerY - 40})
-    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
-    if ( Math.round(Sprites.eyes.position.y) === (centerY - 40)) {
+    let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)
+    TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX - 20, y:centerY - 20})
+    TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX - 30, y:centerY - 40})
+    TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
+    if ( Math.round(this.state.Sprites.eyes.position.y) === (centerY - 40)) {
 			// this.nextState(1)
 		}
   }
   fnIni2 = () => {
-    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
-    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
-    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX + 20, y:centerY - 20})
-    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX + 30, y:centerY - 40})
-    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX + 30, y:centerY - 70})
-    if ( Math.round(Sprites.eyes.position.x) === (centerX + 30)) {
+    let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)
+    TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX + 20, y:centerY - 20})
+    TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX + 30, y:centerY - 40})
+    TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX + 30, y:centerY - 70})
+    if ( Math.round(this.state.Sprites.eyes.position.x) === (centerX + 30)) {
 			// this.nextState(2)
 		}
   }
   fnIni3 = () => {
-    let centerX = (this.state.Renderer.width / 2) - (Sprites.glasses.width / 2)
-    let centerY = (this.state.Renderer.height / 2) - (Sprites.glasses.height / 2)
-    TweenMax.to(Sprites.glasses.position, 0.6, {x:centerX, y:centerY + 50})
-    TweenMax.to(Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
-    TweenMax.to(Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
-    if ( Math.round(Sprites.eyes.position.y) === (centerY + 60)) {
+    let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)
+    TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX, y:centerY + 50})
+    TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
+    TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
+    if ( Math.round(this.state.Sprites.eyes.position.y) === (centerY + 60)) {
 			// this.nextState()
 		}
   }
   fnLoopMouse = () => {
     this.setState({ flicker: this.state.flicker + 1 })
     if (this.state.flicker === 150) {
-      Sprites.eyes.texture = this.state.flicker1
+			this.state.Sprites.eyes.texture = this.state.flicker1
     }
     if (this.state.flicker === 155) {
       this.setState({ flicker: 0 })
-      Sprites.eyes.texture = this.state.flicker2
+      this.state.Sprites.eyes.texture = this.state.flicker2
     }
-    if (this.state.Mouse.x) TweenMax.to(Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
-    if (this.state.Mouse.xeye) TweenMax.to(Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
-    if (this.state.Mouse.xhair) TweenMax.to(Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
+    if (this.state.Mouse.x) TweenMax.to(this.state.Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
+    if (this.state.Mouse.xeye) TweenMax.to(this.state.Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
+    if (this.state.Mouse.xhair) TweenMax.to(this.state.Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
   }
   /* loop1 */
   /* methods */
