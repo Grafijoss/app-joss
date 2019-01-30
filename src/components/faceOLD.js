@@ -11,11 +11,9 @@ class Face extends Component {
   /* estado */
   state = {
     pixi_cnt: null,
-		container: PIXI.Container,
-		autoDetectRenderer: PIXI.autoDetectRenderer,
+    container: PIXI.Container,
     TextureCache: PIXI.utils.TextureCache,
-		Renderer: PIXI.autoDetectRenderer(450, 450, { transparent: true }),
-		thisLoader: new PIXI.loaders.Loader(),
+    Renderer: PIXI.autoDetectRenderer(450, 450, { transparent: true }),
     Mouse: {
       x: undefined,
 			y: undefined,
@@ -44,6 +42,7 @@ class Face extends Component {
 	/* created */
   componentDidMount (prev_props, prev_state) {
 		// console.log(this.props)
+		console.log(this.props.pixiLoader)
 		document.captureEvents(Event.MOUSEMOVE)
     document.onmousemove = this.getMouseXY
 	}
@@ -78,7 +77,7 @@ class Face extends Component {
     }
   }
   setup = () => {
-    this.state.thisLoader
+    PIXI.loader
       .add('sequence', sequence)
       .load(this.initialize)
   }

@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-// import * as PIXI from 'pixi.js'
 import { TweenMax } from 'gsap'
-// import PixiPlugin from 'gsap/PixiPlugin'
-// import PropTypes from 'prop-types'
-// https://github.com/inlet/react-pixi
-// import sequence  from '../assets/images/sprite.png'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
+import icon1 from '../assets/images/ico1.png'
+import icon2 from '../assets/images/ico2.png'
+import icon3 from '../assets/images/ico3.png'
+import IconMenu from './iconmenu'
 
 class Menuicons extends Component {
   /* estado */
@@ -15,7 +14,6 @@ class Menuicons extends Component {
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
-		console.log(this.props)
 		this.fnIni1()
 	}
 	/* created */
@@ -60,9 +58,24 @@ class Menuicons extends Component {
     return (
       <div 
       className="menu-icons">
-				<button id="bt1"></button>
-				<button id="bt2"></button>
-				<button id="bt3"></button>
+				<button id="bt1">
+					<IconMenu 
+					image={icon1} 
+					nameImage={'bt1'}
+					prodsImage={[0, 0, 100, 100]} />
+				</button>
+				<button id="bt2">
+					<IconMenu 
+					image={icon2} 
+					nameImage={'bt2'}
+					prodsImage={[100, 0, 100, 100]} />
+				</button>
+				<button id="bt3">
+					<IconMenu 
+					image={icon3} 
+					nameImage={'bt3'}
+					prodsImage={[200, 0, 100, 100]} />
+				</button>
 			</div>
     )
   }

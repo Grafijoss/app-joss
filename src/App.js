@@ -25,7 +25,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-				<Provider store={store}>
+				<Provider 
+				store={store}>
         	<Face />
 					<Menuicons />
 				</Provider>
