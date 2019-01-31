@@ -104,13 +104,28 @@ body {
 
 .menu-icons {
 	button {
-		height: 100px;
+		background: #00aea7;
+		border-radius: 50%;
+		cursor: pointer;
+		height: 70px;
 		opacity: 0;
 		position: absolute;
-		width: 100px;
+		width: 70px;
 		.icon {
 			height: 100px;
 			width: 100px;
+		}
+		i {
+			font-size: 30px;
+			color: white;
+		}
+		&::after {
+			position: absolute;
+			background: red;
+			height: 100%;
+			left: 0;
+			top: 0;
+			width: 100%;
 		}
 		&:nth-child(1) {
 			left: 50px;
