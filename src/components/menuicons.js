@@ -20,8 +20,11 @@ class Menuicons extends Component {
 	/* methods */
 	/* bt1 */
 	fnIni1 = () => {
-    let bt = document.getElementById('bt1')
-    TweenMax.to(bt, 0.8, {opacity: 1, onComplete: () => {
+		let bt = document.getElementById('bt1')
+		let cover = bt.getElementsByClassName('cover')
+		let icon = bt.getElementsByTagName('i')
+		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
 			this.fnIni2()
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
@@ -32,9 +35,11 @@ class Menuicons extends Component {
 	/* bt1 */
 	/* bt2 */
 	fnIni2 = () => {
-    let bt = document.getElementById('bt2')
-    TweenMax.to(bt, 0.8, {opacity: 1, onComplete: () => {
-			TweenLite.to(bt.getRule(":before"), 2.5, { ease: Bounce.easeOut, height:0, width: 0, y: '50%', x: '50%' });
+		let bt = document.getElementById('bt2')
+		let cover = bt.getElementsByClassName('cover')
+		let icon = bt.getElementsByTagName('i')
+		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
 			this.fnIni3()
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
@@ -45,8 +50,11 @@ class Menuicons extends Component {
 	/* bt2 */
 	/* bt3 */
 	fnIni3 = () => {
-    let bt = document.getElementById('bt3')
-    TweenMax.to(bt, 0.8, {opacity: 1, onComplete: () => {
+		let bt = document.getElementById('bt3')
+		let cover = bt.getElementsByClassName('cover')
+		let icon = bt.getElementsByTagName('i')
+		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
 				step: 3
@@ -60,17 +68,20 @@ class Menuicons extends Component {
       <div 
       className="menu-icons">
 				<button id="bt1">
-					<i class="fas fa-user-ninja"></i>
+					<span className="cover"></span>
+					<i className="fas fa-user-ninja"></i>
 				</button>
 				<button id="bt2">
-					<i class="fas fa-file-code"></i>
+					<span className="cover"></span>
+					<i className="fas fa-file-code"></i>
 				</button>
 				<button id="bt3">
 					{/* <IconMenu 
 					image={icon3} 
 					nameImage={'bt3'}
 					prodsImage={[200, 0, 100, 100]} /> */}
-					<i class="far fa-comment"></i>
+					<span className="cover"></span>
+					<i className="far fa-comment"></i>
 				</button>
 			</div>
     )
