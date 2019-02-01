@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { TweenMax, TweenLite, Bounce } from 'gsap'
 import { connect } from 'react-redux'
-
-import icon1 from '../assets/images/ico1.png'
-import icon2 from '../assets/images/ico2.png'
-import icon3 from '../assets/images/ico3.png'
-import IconMenu from './iconmenu'
+// import icon1 from '../assets/images/ico1.png'
+// import icon2 from '../assets/images/ico2.png'
+// import icon3 from '../assets/images/ico3.png'
+// import IconMenu from './iconmenu'
 
 class Menuicons extends Component {
   /* estado */
@@ -14,7 +13,10 @@ class Menuicons extends Component {
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
-		this.fnIni1()
+		const _this = this
+		setTimeout(() => {
+			_this.fnIni1()
+		}, 1500)
 	}
 	/* created */
 	/* methods */
@@ -59,6 +61,9 @@ class Menuicons extends Component {
 				type: 'ANIMATE_STEP',
 				step: 3
 			})
+			setTimeout(() => {
+				this.props.dispatch({type: 'ANIMATE_STEP', step: 4})
+			}, 2000)
 		}})
 	}
 	/* bt2 */

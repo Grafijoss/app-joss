@@ -159,18 +159,28 @@ class Face extends Component {
   nextState = (current) => {
     switch (current) {
 			case 0:
+        this.setState({ estado: this.fnIni0 })
+        break
+			case 1:
         this.setState({ estado: this.fnIni1 })
         break
-      case 1:
+      case 2:
         this.setState({ estado: this.fnIni2 })
         break
-      case 2:
+      case 3:
         this.setState({ estado: this.fnIni3 })
 				break
       default:
         this.setState({ estado: this.fnLoopMouse })
         break
     }
+	}
+	fnIni0 = () => {
+    let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
+    let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)
+    TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX, y:centerY})
+    TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX, y:centerY})
+    TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX, y:centerY - 60})
   }
   fnIni1 = () => {
     let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
