@@ -92,10 +92,13 @@ body {
 /* My face */
 
 .my-face {
+	background: red;
   height: 450px;
-  left: 50%;
+  // left: 50%;
   position: absolute;
-  transform: translate(-50%, -50%);
+	// transform: translate(-50%, -50%);
+	margin-top: -225px;
+	right: calc(50% - 225px);
   top: 50%;
   width: 450px;
 }
