@@ -68,12 +68,20 @@ class Menuicons extends Component {
     TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4 })
 	}
 	/* bt2 */
-  /* methods */
+	openRight = () => {
+		this.props.dispatch({
+			type: 'OPEN_RIGHT',
+			open: true
+		})
+	}
+	/* methods */
   render() {
     return (
       <div 
       className="menu-icons">
-				<button id="bt1">
+				<button 
+				id="bt1"
+				onClick={this.openRight}>
 					<span className="cover"></span>
 					<i className="fas fa-user-ninja"></i>
 				</button>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import * as PIXI from 'pixi.js'
-import { TweenMax } from 'gsap'
+import { TweenMax, TweenLite } from 'gsap'
 import * as PixiPlugin from "gsap/PixiPlugin"
 // import PropTypes from 'prop-types'
 // https://github.com/inlet/react-pixi
 import sequence  from '../assets/images/sprite.png'
 import { connect } from 'react-redux'
+import ReactDOM from 'react-dom'
 
 class Face extends Component {
   /* estado */
@@ -38,16 +39,27 @@ class Face extends Component {
 		},
 		StageFace: new PIXI.Container(),
 		StageFace1: new PIXI.Container(),
-		StageFace2: new PIXI.Container()
+		StageFace2: new PIXI.Container(),
+		wrrpFace: undefined,
+		wrrpFace1: undefined
   }
 	/* estado */
 	/* created */
   componentDidMount (prev_props, prev_state) {
 		// console.log(this.props)
 		document.captureEvents(Event.MOUSEMOVE)
-    document.onmousemove = this.getMouseXY
+		document.onmousemove = this.getMouseXY
+		this.setState({
+			wrrpFace: ReactDOM.findDOMNode(this.refs.wrrpFace2),
+			wrrpFace1: ReactDOM.findDOMNode(this.refs.wrrpFace1)
+		}) 
 	}
 	/* created */
+	/* update */
+	// componentDidUpdate(prevProps, prevState, snapshot) {
+	// 	console.log(prevProps.openRight)
+	// }
+	/* update */
 	/* methods */
 	getMouseXY = (e) => {
 		let _this = this
@@ -151,6 +163,15 @@ class Face extends Component {
 		requestAnimationFrame(this.fnLoop)
 		TweenMax.to(this.state.Sprites.faceB.position, 0.6, {x: (this.state.Renderer.width / 2) - (this.state.Sprites.faceB.width / 2), y: (this.state.Renderer.height / 2) - (this.state.Sprites.faceB.height / 2)})
 		this.nextState(this.props.aniStep)
+		if (this.props.openRight) {
+			TweenLite.to(this.state.wrrpFace, 0.6, { css: {width: '50%', left: 'auto', rigth: 0 }})
+			TweenLite.to(this.state.wrrpFace1, 0.6, { css: {width: '350px'}})
+			TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace1.clientWidth}px`, width: `${this.state.wrrpFace1.clientWidth}px`}})
+			// TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace.clientWidth / 80 * 100}px`, width: `${this.state.wrrpFace.clientWidth / 80 * 100}px`}})
+		} else {
+			TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: `450px`, width: `450px`}})
+		}
+		// console.log(this.state.wrrpFace.clientWidth)
     this.state.estado()
     this.state.Renderer.render(this.state.StageFace)
   }
@@ -187,7 +208,7 @@ class Face extends Component {
     let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)
     TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX - 20, y:centerY - 20})
     TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX - 30, y:centerY - 40})
-    TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
+		TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX - 30, y:centerY - 70})
     if ( Math.round(this.state.Sprites.eyes.position.y) === (centerY - 40)) {
 			// this.nextState(1)
 		}
@@ -208,11 +229,11 @@ class Face extends Component {
     TweenMax.to(this.state.Sprites.glasses.position, 0.6, {x:centerX, y:centerY + 50})
     TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
     TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
-    TweenMax.to(this.state.StageFace, 1, { pixi: { scaleX: 0.7, scaleY: 0.7, x: this.state.Renderer.width / 7, y: this.state.Renderer.width / 7}, onComplete: () => {
-			TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: '300px', width: '300px'}})
-		}})
-    console.log(this.state.Renderer.width)
-    console.log(this.state.Renderer.width / 7)
+    // TweenMax.to(this.state.StageFace, 1, { pixi: { scaleX: 0.7, scaleY: 0.7, x: this.state.Renderer.width / 7, y: this.state.Renderer.width / 7}, onComplete: () => {
+		// 	TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: '300px', width: '300px'}})
+		// }})
+    // console.log(this.state.Renderer.width)
+    // console.log(this.state.Renderer.width / 7)
     // TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: '300px', width: '300px'}})
     // this.state.Renderer.view.style.width = `300px`
     // this.state.Renderer.view.style.height = `300px`
@@ -223,13 +244,11 @@ class Face extends Component {
   }
   fnLoopMouse = () => {
     this.setState({ flicker: this.state.flicker + 1 })
-    if (this.state.flicker === 150) {
-			this.state.Sprites.eyes.texture = this.state.flicker1
-    }
+    if (this.state.flicker === 150) this.state.Sprites.eyes.texture = this.state.flicker1
     if (this.state.flicker === 155) {
       this.setState({ flicker: 0 })
       this.state.Sprites.eyes.texture = this.state.flicker2
-    }
+		}
     if (this.state.Mouse.x) TweenMax.to(this.state.Sprites.glasses.position, 0.5, {x:this.state.Mouse.x, y:this.state.Mouse.y})
     if (this.state.Mouse.xeye) TweenMax.to(this.state.Sprites.eyes.position, 0.3, {x:this.state.Mouse.xeye, y:this.state.Mouse.yeye - 20})
     if (this.state.Mouse.xhair) TweenMax.to(this.state.Sprites.hair.position, 0.5, {x:this.state.Mouse.xhair, y:this.state.Mouse.yhair - 50})
@@ -238,16 +257,25 @@ class Face extends Component {
   /* methods */
   render() {
     return (
-      <div 
-      ref={this.updatePixiCnt}
-      className="my-face" />
+			<div 
+			className="wrrp-myface"
+			ref="wrrpFace2">
+				<div 
+				className="wrrp-myface1"
+				ref="wrrpFace1">
+					<div 
+					ref={this.updatePixiCnt}
+					className="my-face" />
+				</div>
+			</div>
     )
   }
 }
 
 function mapStateToProps(state, props) {
   return {
-		aniStep: state.aniStep
+		aniStep: state.aniStep,
+		openRight: state.openRight
   }
 }
 

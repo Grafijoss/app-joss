@@ -5,6 +5,11 @@ function data (state, action) {
 				...state,
 				aniStep: action.step
 			}
+		case 'OPEN_RIGHT':
+			return {
+				...state,
+				openRight: action.open
+			}
 		default:
 			return state
 	}

@@ -9,10 +9,8 @@ import { createStore } from 'redux';
 import reducer from './reducers/data'
 
 const initialState = {
-  data: {
-		// ...data,
-  },
-	aniStep: 0
+	aniStep: 0,
+	openRight: false
 }
 
 const store = createStore(
