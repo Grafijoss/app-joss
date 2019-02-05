@@ -25,14 +25,14 @@ class Menuicons extends Component {
 		let bt = document.getElementById('bt1')
 		let cover = bt.getElementsByClassName('cover')
 		let icon = bt.getElementsByTagName('i')
-		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
-    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
+		TweenLite.to(cover, 0.3, { css: {height: '100%', width: '100%', top: 0, left: 0}, ease: Bounce.easeOut, onComplete: () => {
 			this.fnIni2()
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
 				step: 1
 			})
 		}})
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4 })
 	}
 	/* bt1 */
 	/* bt2 */
@@ -40,14 +40,15 @@ class Menuicons extends Component {
 		let bt = document.getElementById('bt2')
 		let cover = bt.getElementsByClassName('cover')
 		let icon = bt.getElementsByTagName('i')
-		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
-    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
+		// TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
+		TweenLite.to(cover, 0.5, { css: {height: '100%', width: '100%', top: 0, left: 0}, ease: Bounce.easeOut, onComplete: () => {
 			this.fnIni3()
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
 				step: 2
 			})
 		}})
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4 })
 	}
 	/* bt2 */
 	/* bt3 */
@@ -55,16 +56,16 @@ class Menuicons extends Component {
 		let bt = document.getElementById('bt3')
 		let cover = bt.getElementsByClassName('cover')
 		let icon = bt.getElementsByTagName('i')
-		TweenLite.to(cover, 0.6, { ease: Bounce.easeOut, height: '100%', width: '100%', top: 0, left: 0 })
-    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4, onComplete: () => {
+		TweenLite.to(cover, 0.5, { css: {height: '100%', width: '100%', top: 0, left: 0}, ease: Bounce.easeOut, onComplete: () => {
 			this.props.dispatch({
 				type: 'ANIMATE_STEP',
 				step: 3
 			})
 			setTimeout(() => {
 				this.props.dispatch({type: 'ANIMATE_STEP', step: 4})
-			}, 2000)
+			}, 1000)
 		}})
+    TweenLite.to(icon, 0.3, { css: {opacity: 1}, delay: 0.4 })
 	}
 	/* bt2 */
   /* methods */
