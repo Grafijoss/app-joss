@@ -209,8 +209,7 @@ class Face extends Component {
     TweenMax.to(this.state.Sprites.eyes.position, 0.5, {x:centerX, y:centerY + 60})
     TweenMax.to(this.state.Sprites.hair.position, 0.6, {x:centerX, y:centerY - 20})
     TweenMax.to(this.state.StageFace, 1, { pixi: { scaleX: 0.7, scaleY: 0.7, x: this.state.Renderer.width / 7, y: this.state.Renderer.width / 7}, onComplete: () => {
-			this.state.Renderer.view.style.width = `300px`
-      this.state.Renderer.view.style.height = `300px`
+			TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: '300px', width: '300px'}})
 		}})
     console.log(this.state.Renderer.width)
     console.log(this.state.Renderer.width / 7)
