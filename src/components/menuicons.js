@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { TweenMax, TweenLite, Bounce } from 'gsap'
+// import {Route} from 'react-router-dom'
+// import { Link, NavLink } from 'react-router-dom'
+import { Redirect } from "react-router-dom";
 import { connect } from 'react-redux'
 // import icon1 from '../assets/images/ico1.png'
 // import icon2 from '../assets/images/ico2.png'
@@ -14,6 +17,8 @@ class Menuicons extends Component {
 			bt2: undefined,
 			bt3: undefined
 		}
+		,
+		prueba: false
   }
 	/* estado */
 	/* created */
@@ -95,6 +100,9 @@ class Menuicons extends Component {
 	/* Hidden Buttons*/
 	/* Open Right */
 	openRight = () => {
+		this.setState({
+			prueba: true
+		})
 		this.hiddenButtons()
 		this.props.dispatch({
 			type: 'OPEN_RIGHT',
@@ -103,6 +111,10 @@ class Menuicons extends Component {
 	}
 	/* methods */
   render() {
+		const { from } = { from: { pathname: "/prueba" } }
+		if (this.state.prueba) {
+			return <Redirect to={from} />
+		}
     return (
       <div 
       className="menu-icons">
