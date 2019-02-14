@@ -16,9 +16,10 @@ class Menuicons extends Component {
 			bt1: undefined,
 			bt2: undefined,
 			bt3: undefined
+		},
+		routes: {
+			perfil: false
 		}
-		,
-		prueba: false
   }
 	/* estado */
 	/* created */
@@ -100,21 +101,16 @@ class Menuicons extends Component {
 	/* Hidden Buttons*/
 	/* Open Right */
 	openRight = () => {
-		this.setState({
-			prueba: true
-		})
 		this.hiddenButtons()
-		this.props.dispatch({
-			type: 'OPEN_RIGHT',
-			open: true
-		})
+		this.props.history.push('/perfil')
 	}
 	/* methods */
   render() {
-		const { from } = { from: { pathname: "/prueba" } }
-		if (this.state.prueba) {
-			return <Redirect to={from} />
-		}
+		// const { from } = { from: { pathname: "/perfil" } }
+		// if (this.state.routes.perfil) {
+		// 		console.log('si funciona')
+		// 		return <Redirect from="/" to="/perfil" />
+		// }
     return (
       <div 
       className="menu-icons">

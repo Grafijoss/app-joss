@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import './App.scss';
 import Face from './components/face'
 import Menuicons from './components/menuicons'
-import Prueba from './components/prueba'
+import Perfil from './components/perfil'
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
   Route,
   Link,
   Redirect,
@@ -23,23 +23,30 @@ const initialState = {
 
 const store = createStore(
   reducer,
-  initialState,
+	initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
 class App extends Component {
+
+	componentDidMount (prev_props, prev_state) {
+		// this.props.history.push('/home')
+	}
+
   render() {
+		console.log('kjhkjhkhkh')
     return (
-			<Router>
-				<div className="App">
-					<Provider 
-					store={store}>
-						<Face />
-						<Menuicons />
-						<Route path="/prueba" component={Prueba} />
-					</Provider>
-				</div>
-			</Router>
+			<div className="App">
+			<BrowserRouter>
+				<Provider 
+				store={store}>
+					<Face />	
+					{/* <Redirect from="/" to="/home"/> */}
+					<Route exact path="/" component={Menuicons} />
+					<Route exact path="/perfil" component={Perfil} />
+				</Provider>
+			</BrowserRouter>
+			</div>
     );
   }
 }
