@@ -32,6 +32,10 @@ class Menuicons extends Component {
 				bt3: document.getElementById('bt3')
 			}
 		})
+		this.props.dispatch({
+			type: 'ANIMATE_STEP',
+			step: 0
+		})
 		setTimeout(() => {
 			_this.fnIni1()
 		}, 1500)

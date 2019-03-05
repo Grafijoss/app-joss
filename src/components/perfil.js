@@ -8,19 +8,25 @@ class Perfil extends Component {
   /* estado */
   state = {
 	}
-	
+	/* created */
 	componentDidMount (prev_props, prev_state) {
 		this.props.dispatch({
 			type: 'OPEN_RIGHT',
 			open: true
 		})
 	}
-
+	/* created */
+	/* methods */
+	back = () => {
+		this.props.history.push('/')
+	}
 	/* methods */
 	render() {
 		console.log('aqui entro a prueba')
     return (
-      <h1>Esto es una prueba</h1>
+      <h1 onClick={this.back}>
+				Esto es una prueba
+			</h1>
     )
   }
 }
