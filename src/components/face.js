@@ -164,7 +164,7 @@ class Face extends Component {
 		TweenMax.to(this.state.Sprites.faceB.position, 0.6, {x: (this.state.Renderer.width / 2) - (this.state.Sprites.faceB.width / 2), y: (this.state.Renderer.height / 2) - (this.state.Sprites.faceB.height / 2)})
 		this.nextState(this.props.aniStep)
 		if (this.props.openRight) {
-			TweenLite.to(this.state.wrrpFace, 0.6, { css: {width: '50%', left: 'auto', rigth: 0 }})
+			TweenLite.to(this.state.wrrpFace, 0.6, { css: {width: '50%', left: '50%', right: 0}})
 			TweenLite.to(this.state.wrrpFace1, 0.6, { css: {width: '350px'}})
 			TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace1.clientWidth}px`, width: `${this.state.wrrpFace1.clientWidth}px`}})
 			this.props.dispatch({type: 'ANIMATE_STEP', step: 4})
@@ -199,10 +199,10 @@ class Face extends Component {
 	}
 	fnIni0 = () => {
 		/* animate to center */
-		// console.log('aquii')
-		// TweenLite.to(this.state.wrrpFace, 0.6, { css: {width: '100%', left: '0', rigth: '0' }})
-		// TweenLite.to(this.state.wrrpFace1, 0.6, { css: {width: '450px'}})
-		// TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace1.clientWidth}px`, width: `${this.state.wrrpFace1.clientWidth}px`}})
+		console.log('aquii')
+		TweenLite.to(this.state.wrrpFace, 0.6, { css: {width: '100%', left: '0', rigth: '0' }})
+		TweenLite.to(this.state.wrrpFace1, 0.6, { css: {width: '450px'}})
+		TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace1.clientWidth}px`, width: `${this.state.wrrpFace1.clientWidth}px`}})
 
     let centerX = (this.state.Renderer.width / 2) - (this.state.Sprites.glasses.width / 2)
     let centerY = (this.state.Renderer.height / 2) - (this.state.Sprites.glasses.height / 2)

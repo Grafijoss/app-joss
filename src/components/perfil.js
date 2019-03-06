@@ -18,6 +18,10 @@ class Perfil extends Component {
 	/* created */
 	/* methods */
 	back = () => {
+		this.props.dispatch({
+			type: 'OPEN_RIGHT',
+			open: false
+		})
 		this.props.history.push('/')
 	}
 	/* methods */
