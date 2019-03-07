@@ -168,7 +168,6 @@ class Face extends Component {
 			TweenLite.to(this.state.wrrpFace1, 0.6, { css: {width: '350px'}})
 			TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace1.clientWidth}px`, width: `${this.state.wrrpFace1.clientWidth}px`}})
 			this.props.dispatch({type: 'ANIMATE_STEP', step: 4})
-			// TweenMax.to(this.state.Renderer.view.style, 0.1, { pixi: { height: `${this.state.wrrpFace.clientWidth / 80 * 100}px`, width: `${this.state.wrrpFace.clientWidth / 80 * 100}px`}})
 		} else {
 			TweenMax.to(this.state.Renderer.view.style, 1, { pixi: { height: `450px`, width: `450px`}})
 		}
